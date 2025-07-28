@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_purchase_requisition_form" model="ir.ui.view">
+        <field name="name">purchasee.requisition.form</field>
+        <field name="model">purchasee.requisition</field>
+        <field name="arch" type="xml">
+            <form string="Purchase Requisition">
+
+                <!-- Header with statusbar and state buttons -->
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,inventory_approval,purchase_approval,confirmed,received"
+                           options="{'clickable':'1'}"/>
+
+                    <button name="action_submit_inventory"
+                            string="Submit for Inventory Approval"
+                            type="object"
+                            states="draft"
+                            class="btn-primary"/>
+
+                    <button name="action_submit_purchase"
+                            string="Submit for Purchase Approval"
+                            type="object"
+                            states="inventory_approval"
+                            class="btn-primary"/>
+
+                    <button name="action_confirm"
+                            string="Confirm"
+                            type="object"
+                            states="purchase_approval"
+                            class="btn-primary"/>
+
+                    <button name="action_mark_received"
+                            string="Mark as Received"
+                            type="object"
+                            states="confirmed"
+                            class="btn-success"/>
+                </header>
+
+                <!-- Main body -->
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="employee_id"/>
+                            <field name="responsible_id"/>
+                        </group>
+                        <group>
+                            <field name="department_id"/>
+                            <field name="requisition_date"/>
+                            <field name="requisition_deadline"/>
+                        </group>
+                    </group>
+
+                    <!-- Notebook with Requisition Orders -->
+                    <notebook>
+                        <page string="Requisition Orders">
+                            <field name="line_ids">
+                                <tree editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="description"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
